@@ -1,7 +1,7 @@
 val catsVersion = "2.0.0"
 val catsEffectVersion = "2.0.0"
-val utilVersion = "18.5.0"
-val finagleVersion = "18.5.0"
+val utilVersion = "19.4.0"
+val finagleVersion = "19.4.0"
 
 organization in ThisBuild := "com.dwolla"
 

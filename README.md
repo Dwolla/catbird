@@ -4,7 +4,7 @@ This project backports new versions of [Cats](https://github.com/typelevel/cats)
 the [Twitter Open Source](https://twitter.com/twitteross) Scala projects by 
 forking [Travis Brown's catbird](https://github.com/travisbrown/catbird).
 
-It currently targets Finagle / Util 18.5.0 and Cats 2.0.0.
+It currently targets Finagle / Util 19.4.0 and Cats 2.0.0.
 
 ## Community
 

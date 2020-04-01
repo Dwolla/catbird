@@ -8,7 +8,7 @@ import cats.kernel.laws.discipline.{ MonoidTests, SemigroupTests }
 import cats.laws.discipline._
 import cats.laws.discipline.arbitrary._
 import cats.{ Comonad, Eq }
-import com.twitter.conversions.time._
+import com.twitter.conversions.DurationOps._
 import com.twitter.util.Future
 import org.scalacheck.Arbitrary
 

@@ -7,7 +7,7 @@ import cats.instances.tuple._
 import cats.kernel.laws.discipline.{ MonoidTests, SemigroupTests }
 import cats.laws.discipline._
 import com.twitter.concurrent.AsyncStream
-import com.twitter.conversions.time._
+import com.twitter.conversions.DurationOps._
 
 class AsyncStreamSuite extends CatbirdSuite with AsyncStreamInstances with ArbitraryInstances {
   implicit val eqAsyncStreamInt: Eq[AsyncStream[Int]] = asyncStreamEq(1.second)
