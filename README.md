@@ -1,21 +1,10 @@
-# catbird
+# catbird backports
 
-[![Build status](https://img.shields.io/travis/travisbrown/catbird/master.svg)](http://travis-ci.org/travisbrown/catbird)
-[![Coverage status](https://img.shields.io/codecov/c/github/travisbrown/catbird/master.svg)](https://codecov.io/github/travisbrown/catbird)
-[![Maven Central](https://img.shields.io/maven-central/v/io.catbird/catbird-finagle_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.catbird/catbird-finagle_2.13)
+This project backports new versions of [Cats](https://github.com/typelevel/cats) to older versions of
+the [Twitter Open Source](https://twitter.com/twitteross) Scala projects by 
+forking [Travis Brown's catbird](https://github.com/travisbrown/catbird).
 
-
-This project provides [Cats](https://github.com/typelevel/cats) type class instances (and other useful
-Cats-related stuff) for various [Twitter Open Source](https://twitter.com/twitteross) Scala
-projects.
-
-It currently includes the following:
-
-* Type class instances for `Future`, `Var`, and `Try` (including `Monad` or `MonadError`, `Semigroup`, and equality)
-* Category and profunctor instances for `Service`
-* A `Rerunnable` type that wraps `Future` but provides semantics more like Scalaz's `Task`
-
-These are reasonably well-tested (thanks to [Discipline](https://github.com/typelevel/discipline)).
+It currently targets Finagle / Util 18.5.0 and Cats 2.0.0.
 
 ## Community
 

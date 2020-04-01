@@ -1,9 +1,9 @@
 val catsVersion = "2.0.0"
 val catsEffectVersion = "2.0.0"
-val utilVersion = "20.3.0"
-val finagleVersion = "20.3.0"
+val utilVersion = "18.5.0"
+val finagleVersion = "18.5.0"
 
-organization in ThisBuild := "io.catbird"
+organization in ThisBuild := "com.dwolla"
 
 def compilerOptions(scalaVersion: String): Seq[String] = Seq(
   "-deprecation",
@@ -29,10 +29,8 @@ def compilerOptions(scalaVersion: String): Seq[String] = Seq(
           "-Ymacro-annotations"
         ))
 
-val docMappingsApiDir = settingKey[String]("Subdirectory in site target directory for API docs")
-
 lazy val baseSettings = Seq(
-  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1"),
+  crossScalaVersions := Seq("2.11.12", "2.12.10"),
   scalacOptions ++= compilerOptions(scalaVersion.value),
   scalacOptions in (Compile, console) ~= {
     _.filterNot(Set("-Ywarn-unused-import", "-Ywarn-unused:imports", "-Yno-imports", "-Yno-predef"))
@@ -50,20 +48,13 @@ lazy val baseSettings = Seq(
     compilerPlugin(("org.typelevel" %% "kind-projector" % "0.11.0").cross(CrossVersion.full))
   ),
   resolvers += Resolver.sonatypeRepo("snapshots"),
-  docMappingsApiDir := "api"
 )
 
 lazy val allSettings = baseSettings ++ publishSettings
 
 lazy val root = project
   .in(file("."))
-  .enablePlugins(GhpagesPlugin, ScalaUnidocPlugin)
   .settings(allSettings ++ noPublishSettings)
-  .settings(
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inAnyProject -- inProjects(benchmark),
-    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), docMappingsApiDir),
-    git.remoteRepo := "git@github.com:travisbrown/catbird.git"
-  )
   .settings(
     initialCommands in console :=
       """
@@ -126,28 +117,23 @@ lazy val benchmark = project
 
 lazy val publishSettings = Seq(
   releaseCrossBuild := true,
-  releasePublishArtifactsAction := PgpKeys.publishSigned.value,
-  releaseVcsSign := true,
-  homepage := Some(url("https://github.com/travisbrown/catbird")),
-  licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  homepage := Some(url("https://github.com/dwolla/catbird")),
+  licenses := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   publishMavenStyle := true,
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false },
-  publishTo := {
-    val nexus = "https://oss.sonatype.org/"
-    if (isSnapshot.value)
-      Some("snapshots".at(nexus + "content/repositories/snapshots"))
-    else
-      Some("releases".at(nexus + "service/local/staging/deploy/maven2"))
-  },
   autoAPIMappings := true,
   apiURL := Some(url("https://travisbrown.github.io/catbird/api/")),
   scmInfo := Some(
     ScmInfo(
-      url("https://github.com/travisbrown/catbird"),
-      "scm:git:git@github.com:travisbrown/catbird.git"
+      url("https://github.com/dwolla/catbird"),
+      "scm:git:git@github.com:dwolla/catbird.git"
     )
   ),
+  bintrayVcsUrl := homepage.value.map(_.toString),
+  bintrayRepository := "maven-forks",
+  bintrayOrganization := Option("dwolla"),
+  pomIncludeRepository := { _ => false },
   pomExtra := (
     <developers>
       <developer>
@@ -164,18 +150,6 @@ lazy val noPublishSettings = Seq(
   publishLocal := {},
   publishArtifact := false
 )
-
-credentials ++= (
-  for {
-    username <- Option(System.getenv().get("SONATYPE_USERNAME"))
-    password <- Option(System.getenv().get("SONATYPE_PASSWORD"))
-  } yield Credentials(
-    "Sonatype Nexus Repository Manager",
-    "oss.sonatype.org",
-    username,
-    password
-  )
-).toSeq
 
 def priorTo2_13(scalaVersion: String): Boolean =
   CrossVersion.partialVersion(scalaVersion) match {

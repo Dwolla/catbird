@@ -1,22 +1,16 @@
-dist: xenial
-sudo: false
 language: scala
 
 scala:
   - 2.11.12
   - 2.12.10
-  - 2.13.1
 
 jdk:
   - openjdk8
 
 sbt_args: -J-Xmx8192M
 
-install:
-  - pip install --user codecov
-
 script:
-  sbt ++$TRAVIS_SCALA_VERSION clean coverage test scalastyle scalafmtCheck scalafmtSbtCheck test:scalafmtCheck unidoc coverageReport && codecov;
+  sbt ++$TRAVIS_SCALA_VERSION clean test;
 
 cache:
   directories:
